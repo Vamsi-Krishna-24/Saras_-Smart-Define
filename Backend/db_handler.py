@@ -47,3 +47,4 @@ def insert_word(word1,synonm,definition,examples):          #THIRD Function
 
     execute_query(query, (word1,synonm_str,definition,example_str))
 
+#DB have been designed and functioned properly till now.
