@@ -8,7 +8,7 @@ def execute_query(query,params=(),fetch = False):   #function FIRST
 
     if fetch:
         result = cursor.fetchall()
-        connection.close()
+        connect.close()
         return result
     
     connect.commit()
@@ -25,11 +25,12 @@ def get_word_meaning(word):                         #Function SECOND
     result = execute_query(query, (word,),fetch = True)
 
     if result:
-        definition, examples = result[0]
+        definition, examples, synonm = result[0]
         return{
             'word':word,
             'definition':definition,
-            'examples':examples.split(',')
+            'examples':examples.split(','),
+            'synonyms':synonm.split(',')
         }
     else:
         return None
@@ -44,5 +45,5 @@ def insert_word(word1,synonm,definition,examples):          #THIRD Function
     synonm_str = ','.join(synonm) if synonm else ''
     example_str = ','.join(examples) if examples else ''
 
-    execute_query(query, (word1,synonm_str,efinition,example_str))
+    execute_query(query, (word1,synonm_str,definition,example_str))
 
