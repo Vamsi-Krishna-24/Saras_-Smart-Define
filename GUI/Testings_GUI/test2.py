@@ -9,6 +9,7 @@ class MainWindow(QMainWindow):
         
         #setting a dark theme example 
         self.setWindowTitle("Testing Dark Theme")
+        self.resize(400,300)
 
         #Createing a Label
         label = QLabel("This is a Dark Theme")
@@ -17,15 +18,22 @@ class MainWindow(QMainWindow):
         #Applying a dark theme 
         self.setStyleSheet("""
         QMainWindow {
-            background-color: #121212;
+            background-color:rgb(33, 32, 32);
             color: #ffffff;
-            border: 2px solid #1e1e1e;
+            border: 2px solidrgb(119, 28, 28);
+            border_radius: 30px;
         }
-         QLabel {
+        QLabel {
+                font-family: 'Arial';
                 font-size: 20px;          /* Larger text */
                 font-weight: bold;        /* Bold text */
-                color: #ffcc00;           /* Gold text color */
+                color:rgb(210, 229, 244);           /* Gold text color */
                 }
+        QLabel::slection{
+                background-color: #ffeb3b;
+                color: black;
+                
+        }
 
 """)
         
@@ -36,5 +44,3 @@ window = MainWindow()
 window.show()
 app.exec()
 sys.exit()
-
-
