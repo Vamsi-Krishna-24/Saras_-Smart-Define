@@ -19,7 +19,7 @@ class DictionaryWindow(QWidget):
             }
             QLabel#heading {
                 font-size: 25px;
-                font-weight: italic;
+                font-weight: bold;
             }
             QLabel#sectionTitle {
                 font-weight: bold;

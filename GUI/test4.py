@@ -12,7 +12,7 @@ layout.setSpacing(5)
 
 header = QLabel("Vamsi Window  ────────────────────")
 header.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-
+header.setObjectName("KING")
 layout.addWidget(header)
 
 line = QFrame()
