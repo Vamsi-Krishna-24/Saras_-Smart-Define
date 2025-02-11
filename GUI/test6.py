@@ -4,7 +4,6 @@ import sys
 
 app = QApplication(sys.argv)
 widget = QWidget()
-
 main_layout = QVBoxLayout()
 main_layout.setContentsMargins(10,10,10,10)
 main_layout.setSpacing(5)

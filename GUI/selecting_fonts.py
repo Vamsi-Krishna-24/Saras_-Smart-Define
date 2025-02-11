@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QLabel, QFrame, QVBoxLayout, QWidget, QApplication
+from PyQt6.QtWidgets import QLabel, QFrame, QVBoxLayout, QWidget, QApplication, QScrollArea
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QFontDatabase
 import sys
@@ -10,7 +10,12 @@ Layout = QVBoxLayout()
 Layout.setContentsMargins(10,10,10,10)
 Layout.setSpacing(10)
 window.resize(400,350)
+window.setFixedSize(400,350)
 window.setWindowTitle("Checking the Fonts")
+
+#ADding scroll element
+scroll = QScrollArea()
+scroll.setWidgetResizable(True)
 
 
 fonts = QFontDatabase.families()
