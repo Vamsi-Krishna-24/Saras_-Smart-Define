@@ -42,10 +42,6 @@ Line.setStyleSheet("""
 """)
 layout.addWidget(Line)
 
-spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-
-
 window.setWindowOpacity(0.9)
 window.setLayout(layout)
 window.show()
