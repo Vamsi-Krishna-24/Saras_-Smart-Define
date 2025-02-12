@@ -1,60 +1,85 @@
-import sys
-from PyQt6.QtWidgets import QApplication, QLabel, QMainWindow, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame, QSpacerItem, QSizePolicy, QApplication
+from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+import sys
 
-class PopupWindow(QMainWindow):
-    def __init__(self, word, meaning, examples, synonyms):
+class Popup(QWidget):
+    def __init__(self, word, meaning, example, synonyms):
         super().__init__()
-        
-        self.setWindowTitle(f"Definition of '{word}'")
-        self.resize(400, 300)
+        self.setWindowTitle("SARAS - Product by ENGIN.E")
+        self.resize(400, 350)
+        self.setStyleSheet("background-color: #1c1c1c;")
+        self.setWindowOpacity(0.9)
 
-        # Main widget and layout
-        central_widget = QWidget()
-        layout = QVBoxLayout()
+        # Layout setup
+        LayoutV = QVBoxLayout()
+        LayoutV.setContentsMargins(10, 10, 10, 10)
+        LayoutV.setSpacing(20)
 
-        # Labels for word, meaning, and synonyms
-        word_label = QLabel(f"<b>Word:</b> {word}")
-        meaning_label = QLabel(f"<b>Meaning:</b> {meaning}")
-        examples_label = QLabel(f"<b>Examples:</b> {examples}")
-        synonyms_label = QLabel(f"<b>Synonyms:</b> {', '.join(synonyms)}")
+        # Dictionary Label
+        Dict = QLabel("Dictionary ───────────────────────────")
+        Dict.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        Dict.setFont(QFont("Georgia", 16))
+        LayoutV.addWidget(Dict)
 
-        for label in (word_label, meaning_label,examples_label, synonyms_label):
-            label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-            layout.addWidget(label)
+        # Word with line
+        LayoutH1 = QHBoxLayout()
+        WordLabel = QLabel(word)
+        WordLabel.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        WordLabel.setFont(QFont("AppleGothic", 18))
+        LayoutH1.addWidget(WordLabel)
 
-        central_widget.setLayout(layout)
-        self.setCentralWidget(central_widget)
+        sideLine = QFrame()
+        sideLine.setFrameShape(QFrame.Shape.HLine)
+        sideLine.setFixedHeight(1)
+        sideLine.setStyleSheet("background-color: rgba(255, 255, 255, 0.3);")
+        LayoutH1.addWidget(sideLine)
+        LayoutV.addLayout(LayoutH1)
 
-        # Applying the dark theme
-        self.setStyleSheet("""
-            QMainWindow {
-                background-color: rgb(33, 32, 32);
-                color: #ffffff;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                border-radius: 10px;
-                padding: 15px;
-            }
-            QLabel {
-                font-family: 'Helvetica';
-                font-size: 16px;
-                color: #E0E0E0;
-            }
-            QLabel::selection {
-                background-color: #ffeb3b;
-                color: black;
-            }
-        """
-        )
+        # Meaning
+        MeaningLabel = QLabel(meaning)
+        MeaningLabel.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        MeaningLabel.setFont(QFont("Georgia", 16))
+        LayoutV.addWidget(MeaningLabel)
 
-def show_popup(word, meaning, examples, synonyms):
+        # Example
+        ExampleLabel = QLabel(example)
+        ExampleLabel.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        ExampleLabel.setFont(QFont("Georgia", 16, -1, italic=True))
+        LayoutV.addWidget(ExampleLabel)
+
+        # Spacer
+        LayoutV.addItem(QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
+
+        # Synonyms with line
+        LayoutH2 = QHBoxLayout()
+        SynonymLabel = QLabel("Synonyms")
+        SynonymLabel.setFont(QFont("AppleGothic", 16))
+        LayoutH2.addWidget(SynonymLabel)
+
+        sideLine1 = QFrame()
+        sideLine1.setFrameShape(QFrame.Shape.HLine)
+        sideLine1.setFixedHeight(1)
+        sideLine1.setStyleSheet("background-color: rgba(255, 255, 255, 0.3);")
+        LayoutH2.addWidget(sideLine1)
+        LayoutV.addLayout(LayoutH2)
+
+        SynonymsLabel = QLabel(synonyms)
+        SynonymsLabel.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        SynonymsLabel.setFont(QFont("Georgia", 16))
+        LayoutV.addWidget(SynonymsLabel)
+
+        # Bottom Line
+        Line = QFrame()
+        Line.setFrameShape(QFrame.Shape.HLine)
+        Line.setStyleSheet("background-color: rgba(255, 255, 255, 0.3);")
+        LayoutV.addWidget(Line)
+
+        self.setLayout(LayoutV)
+
+# Function to display popup (called from main.py)
+def show_popup(word, meaning, example, synonyms):
     app = QApplication(sys.argv)
-    window = PopupWindow(word, meaning, examples, synonyms)
-    window.show()
-    app.exec()
-    sys.exit()
-
-# Example usage
-if __name__ == "__main__":
-    show_popup("Example", "A representative form or pattern", ["This is an example sentence."], ["sample", "instance", "case"])
-
+    popup = Popup(word, meaning, example, synonyms)
+    popup.show()
+    sys.exit(app.exec())
