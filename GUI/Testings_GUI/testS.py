@@ -1,20 +1,41 @@
-from PyQt6.QtWidgets import QHBoxLayout
+from PyQt6.QtWidgets import QWidget, QLabel, QApplication, QVBoxLayout, QFrame, QSpacerItem, QSizePolicy, QColorDialog
+from PyQt6.QtGui import QFont, QFontDatabase
+from PyQt6.QtCore import Qt
+import sys
 
-# Horizontal layout for "Word" and the line beside it
-word_layout = QHBoxLayout()
+app = QApplication(sys.argv)
+widget = QWidget()
+main_layout = QVBoxLayout()
+main_layout.setContentsMargins(10,10,10,10)
+main_layout.setSpacing(100)
 
-Word = QLabel("Word")
-Word.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-Word.setFont(QFont("AppleGothic", 18))
-word_layout.addWidget(Word)
 
-# Sleek line beside the word
+
+title = QLabel("Dictonary  ────────────────")
+title.setAlignment(Qt.AlignmentFlag.AlignTop and Qt.AlignmentFlag.AlignLeft)
+title.setFont(QFont("Georgia",14))
+main_layout.addWidget(title)
+
+
+Dict= QLabel("Word")
+Dict.setAlignment(Qt.AlignmentFlag.AlignTop and Qt.AlignmentFlag.AlignLeft)
+Dict.setFont(QFont("Georgia",14,QFont.Weight.Bold))
+main_layout.addWidget(Dict)
+
+
 Line = QFrame()
 Line.setFrameShape(QFrame.Shape.HLine)
-Line.setStyleSheet("border: none; background-color: rgba(255, 255, 255, 0.3); height: 1px;")
-Line.setFixedHeight(1)        # Line thickness
-Line.setFixedWidth(180)       # Line length
-word_layout.addWidget(Line)
+Line.setFrameShadow(QFrame.Shadow.Sunken)
+Line.setStyleSheet("color: white; background-color: white; width: 1px")
+main_layout.addWidget(Line)
 
-# Add this horizontal layout to the main vertical layout
-layout.addLayout(word_layout)
+spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+main_layout.addItem(spacer)
+
+widget.setWindowOpacity(0.9)
+widget.setStyleSheet("background-color: #1b1b1b;")  
+widget.setLayout(main_layout)
+widget.setWindowTitle("SARAS - Product of Engin.E")
+widget.resize(400,300)
+widget.show()
+sys.exit(app.exec())
