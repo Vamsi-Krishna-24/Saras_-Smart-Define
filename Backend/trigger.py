@@ -1,5 +1,6 @@
 from pynput import mouse 
-from pywinauto import Application 
+from pywinauto import application
+from main import handle_word_trigger
 import time
 import main 
 
@@ -22,10 +23,9 @@ class DoubleTapListner:
         if selected_text:
             main.handle_word_trigger(selected_text)
 
-
     def get_selected_text(self):
         try:
-            app = Application().connect(title_re=".*")
+            app = application().connect(title_re=".*")
             dlg=app.top_window()
             selected_text=dlg.Selection().window_text()
             return selected_text.strip()
