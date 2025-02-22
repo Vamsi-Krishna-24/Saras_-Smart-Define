@@ -6,25 +6,20 @@ import time
 
 def handle_word_trigger(word):
     """Handles the word trigger flow: fetch meaning and show pop-up."""
-    meaning = get_word_meaning(word)
-    if meaning:
-        show_popup(word, meaning)
-    else:
-        show_popup(word, "No definition found.")
+    meaning, example, synonyms = get_word_meaning(word) or ("Not found", "", "")
+
+    show_popup(word, meaning, example, synonyms)
 
 def main():
+    listener = DoubleTapListner()  # Create an instance
+    
     while True:
-        # Wait for double-tap and get the selected text
-        selected_text = DoubleTapListner()
+        selected_text = listener.listen()  # Wait for double-tap and get text
         
         if selected_text:
-            # Fetch word details from the database
-            meaning, example, synonyms = get_word_meaning(selected_text) or ("Not found", "", "")
+            handle_word_trigger(selected_text)
 
-            # Display the popup with the word details
-            show_popup(selected_text, meaning, example, synonyms)
-
-            time.sleep(0.5)
+        time.sleep(0.5)  # Prevent excessive looping
 
 if __name__ == "__main__":
     main()

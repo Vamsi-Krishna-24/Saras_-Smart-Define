@@ -17,15 +17,15 @@ def execute_query(query,params=(),fetch = False):   #function FIRST
 
 def get_word_meaning(word):                         #Function SECOND
     query='''
-    SELECT definition, examples
-    FROM dictioanry
+    SELECT definition, examples, synonms
+    FROM dictionary
     WHERE word = ?
     '''
 
     result = execute_query(query, (word,),fetch = True)
 
     if result:
-        definition, examples, synonm = result[0]
+        definition, examples, synonms = result[0]
         return{
             'word':word,
             'definition':definition,
@@ -38,7 +38,7 @@ def get_word_meaning(word):                         #Function SECOND
 
 def insert_word(word1,synonm,definition,examples):          #THIRD Function 
     query = '''
-    INSERT INTO dictionary(word1,synonm,definition,examples)
+    INSERT INTO dictionary(word, synonyms, definition, examples)
     VALUES (?,?,?,?)
     '''
 
