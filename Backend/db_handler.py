@@ -1,9 +1,9 @@
 import sqlite3
+import os
 
 def execute_query(query,params=(),fetch = False):   #function FIRST
-    connect = sqlite3.connect('Dictionary.db')
+    connect = sqlite3.connect('/Users/surisettivamsikrishna/Downloads/Vamsi Pc/CODES/Mark2/SARAS/Saras_-Smart-Define/DataBase/Dictionary.db')
     cursor = connect.cursor()
-
     cursor.execute(query,params)
 
     if fetch:
@@ -17,9 +17,9 @@ def execute_query(query,params=(),fetch = False):   #function FIRST
 
 def get_word_meaning(word):                         #Function SECOND
     query='''
-    SELECT definition, examples
-    FROM dictioanry
-    WHERE word = ?
+    SELECT definition, examples, synonm
+    FROM dictionary
+    WHERE word1 = ?
     '''
 
     result = execute_query(query, (word,),fetch = True)
@@ -29,11 +29,12 @@ def get_word_meaning(word):                         #Function SECOND
         return{
             'word':word,
             'definition':definition,
-            'examples':examples.split(','),
-            'synonyms':synonm.split(',')
+            'examples':examples.split(',') if examples else [],
+            'synonyms':synonm.split(',') if synonm else []
         }
     else:
         return None
+
 
 
 def insert_word(word1,synonm,definition,examples):          #THIRD Function 
@@ -47,4 +48,7 @@ def insert_word(word1,synonm,definition,examples):          #THIRD Function
 
     execute_query(query, (word1,synonm_str,definition,example_str))
 
-#DB have been designed and functioned properly till now.
+    #DB have been designed and functioned properly till now.
+
+
+print(os.path.abspath('Dictionary.db'))
