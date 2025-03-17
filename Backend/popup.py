@@ -79,7 +79,7 @@ class Popup(QWidget):
 
 # Function to display popup (called from main.py)
 def show_popup(word, meaning, example, synonyms):
-    app = QApplication(sys.argv)
+    app = QApplication(sys.argv) or  QApplication.instance()
     popup = Popup(word, meaning, example, synonyms)
     popup.show()
     sys.exit(app.exec())

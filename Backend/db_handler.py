@@ -17,9 +17,15 @@ def execute_query(query,params=(),fetch = False):   #function FIRST
 
 def get_word_meaning(word):                         #Function SECOND
     query='''
+<<<<<<< HEAD
     SELECT definition, examples, synonms
     FROM dictionary
+=======
+    SELECT definition, examples, synonyms 
+    FROM dictionary 
+>>>>>>> 4ea8e29 (selection of a word have been made)
     WHERE word = ?
+
     '''
 
     result = execute_query(query, (word,),fetch = True)

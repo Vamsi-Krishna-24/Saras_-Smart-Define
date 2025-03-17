@@ -1,6 +1,6 @@
 PyQt6
-sqlite3
 pynput
 pywinauto
-time
-main
+pyautogui
+pyperclip
+

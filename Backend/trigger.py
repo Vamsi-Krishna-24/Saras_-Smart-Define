@@ -25,7 +25,11 @@ class DoubleTapListner:
 
     def get_selected_text(self):
         try:
+<<<<<<< HEAD
             app = Application().connect(active_only=True) 
+=======
+            app = Application().connect(title_re=".*")
+>>>>>>> 4ea8e29 (selection of a word have been made)
             dlg=app.top_window()
             selected_text=dlg.Selection().window_text()
             return selected_text.strip()
