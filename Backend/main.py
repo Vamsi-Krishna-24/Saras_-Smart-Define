@@ -1,30 +1,53 @@
-from trigger import DoubleTapListner  # Correct class for detecting double tap
-from db_handler import get_word_meaning  # Correct function for fetching word details
-from popup import show_popup  # Correct function for displaying the popup
-from db_handler import get_word_meaning
+# main.py
+
 import time
+import pyperclip
+from pynput import mouse, keyboard
+from db_handler import get_word_meaning
+from popup1 import show_popup
 
-def handle_word_trigger(word):
-    """Handles the word trigger flow: fetch meaning and show pop-up."""
-    meaning = get_word_meaning(word)
-    if meaning:
-        show_popup(word, meaning)
-    else:
-        show_popup(word, "No definition found.")
+# Create keyboard controller to simulate Ctrl+C
+kbd = keyboard.Controller()
 
-def main():
-    while True:
-        # Wait for double-tap and get the selected text
-        selected_text = DoubleTapListner()
-        
-        if selected_text:
-            # Fetch word details from the database
-            meaning, example, synonyms = get_word_meaning(selected_text) or ("Not found", "", "")
+# Track last click time
+last_click_time = None
 
-            # Display the popup with the word details
-            show_popup(selected_text, meaning, example, synonyms)
+def on_click(x, y, button, pressed):
+    global last_click_time
 
-            time.sleep(0.5)
+    # Detect left-button release (not press)
+    if button == mouse.Button.left and not pressed:
+        current_time = time.time()
+        if last_click_time and (current_time - last_click_time) < 0.3:
+            # Double-tap detected
+            # Simulate Ctrl+C to copy selected word
+            kbd.press(keyboard.Key.ctrl)
+            kbd.press('c')
+            kbd.release('c')
+            kbd.release(keyboard.Key.ctrl)
+
+            time.sleep(0.3)  # Give system time to copy text
+
+            copied_text = pyperclip.paste().strip()
+            print(f"[LOG] Copied Text: {copied_text}")
+
+            if copied_text:
+                result = get_word_meaning(copied_text)
+                if result:
+                    show_popup(
+                        copied_text,
+                        result.get("definition", ""),
+                        ", ".join(result.get("examples", [])),
+                        ", ".join(result.get("synonyms", []))
+                    )
+                else:
+                    show_popup(copied_text, "Word not found in database.", "", "")
+        last_click_time = current_time
+
+def listen_double_click():
+    print("[INFO] Listening for double-clicks...")
+    with mouse.Listener(on_click=on_click) as listener:
+        listener.join()  # Keeps running in background
 
 if __name__ == "__main__":
-    main()
+    listen_double_click()
